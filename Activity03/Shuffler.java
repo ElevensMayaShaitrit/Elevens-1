@@ -4,6 +4,7 @@ package Activity03;
  * This class provides a convenient way to test shuffling methods.
  */
 public class Shuffler {
+
     /**
      * The number of consecutive shuffle steps to be performed in each call
      * to each sorting procedure.
@@ -20,67 +21,66 @@ public class Shuffler {
      * @param args is not used.
      */
     public static void main(String[] args) {
-        System.out.println("Results of " + SHUFFLE_COUNT + " consecutive perfect shuffles:");
+        System.out.println("Results of " + SHUFFLE_COUNT +
+                                 " consecutive perfect shuffles:");
         int[] values1 = new int[VALUE_COUNT];
-        for (int i = 0; i < values1.length; i++) 
-        {
+        int[] shuffled1 = new int[VALUE_COUNT];
+        for (int i = 0; i < values1.length; i++) {
             values1[i] = i;
-        }
-
-        for (int j = 1; j <= SHUFFLE_COUNT; j++) 
-        {
-            perfectShuffle(values1);
+            }
+        for (int j = 1; j <= SHUFFLE_COUNT; j++) {
+            shuffled1 =  perfectShuffle(values1);
             System.out.print("  " + j + ":");
-            for (int k = 0; k < values1.length; k++) 
-            {
-                System.out.print(" " + values1[k]);
+            for (int k = 0; k < values1.length; k++) {
+                System.out.print(" " + shuffled1[k]);
             }
             System.out.println();
         }
         System.out.println();
 
-        System.out.println("Results of " + SHUFFLE_COUNT + " consecutive efficient selection shuffles:");
+        System.out.println("Results of " + SHUFFLE_COUNT +
+                                 " consecutive efficient selection shuffles:");
         int[] values2 = new int[VALUE_COUNT];
-        for (int i = 0; i < values2.length; i++) 
-        {
+        int[] shuffled2 = new int[VALUE_COUNT];
+        for (int i = 0; i < values2.length; i++) {
             values2[i] = i;
-        }
-
-        for (int j = 1; j <= SHUFFLE_COUNT; j++) 
-        {
-            selectionShuffle(values2);
+            }
+        for (int j = 1; j <= SHUFFLE_COUNT; j++) {
+            shuffled2 = selectionShuffle(values2);
             System.out.print("  " + j + ":");
-            for (int k = 0; k < values2.length; k++) 
-            {
-                System.out.print(" " + values2[k]);
+            for (int k = 0; k < values2.length; k++) {
+                System.out.print(" " + shuffled2[k]);
             }
             System.out.println();
         }
         System.out.println();
     }
 
+
     /**
      * Apply a "perfect shuffle" to the argument.
-     * The perfect shuffle algorithm splits the deck in half, then interleaves
+     * The perfect shuffle algorithm spli   ts the deck in half, then interleaves
      * the cards in one half with the cards in the other.
      * @param values is an array of integers simulating cards to be shuffled.
      */
-    public static void perfectShuffle(int[] values) {
-        int shuffled[] = new int[52];
+    public static int[] perfectShuffle(int[] values) {
+        int[] shuffled = new int[values.length];
         int k = 0;
-        for(int half = 0; half < 25; half++)
-        {
-            shuffled[half] = values[k];
-            k = k + 2;
+        int middle;
+        if(values.length % 2 == 0)
+            middle = values.length / 2;
+        else
+            middle = (values.length + 1) / 2;
+        for(int j = 0; j < middle; j++){
+            shuffled[k] = values[j];
+            k += 2;
         }
-
         k = 1;
-
-        for(int half = 26; half < 51; half++)
-        {
-            shuffled[half] = values[k];
-            k = k + 2;
+        for(int j = middle; j < values.length; j++){
+            shuffled[k] = values[j];
+            k += 2;
         }
+        return shuffled;
     }
 
     /**
@@ -94,11 +94,16 @@ public class Shuffler {
      * searching for an as-yet-unselected card.
      * @param values is an array of integers simulating cards to be shuffled.
      */
-    public static void selectionShuffle(int[] values) {
-        for(int k = 51; k >= 1; k--)
-        {
-            int r = (int)Math.floor(Math.random()*51) + 1;
-            values[k] = values[r];
+    public static int[] selectionShuffle(int[] values) {
+        int[] shuffled = new int[values.length];
+        int j = (int)((values.length) * Math.random());
+        for(int k = 0; k < values.length - 1; k++){
+            while(values[j] == 0){
+                j = (int)((values.length) * Math.random());
+            }
+            shuffled[k] = values[j];
+            values[j] = 0;
         }
+        return shuffled;
     }
 }
