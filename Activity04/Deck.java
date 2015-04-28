@@ -65,18 +65,15 @@ public class Deck {
 	 * and reset the size to represent the entire deck.
 	 */
 	public void shuffle() {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 4 *** */
-		Random rand = new Random();
-
-        for (int k=size-1; k>0; k--) {
-           int r = rand.nextInt(k);
-           Card hold = cards.get(k);
-           cards.set(k, cards.get(r));
-           cards.set(r, hold);
-        }
-		size = cards.size();
-	}
-
+		for (int k = cards.size()-1; k > 0; --k) {
+	    int r = (int)(Math.random() * k+1);
+	    Card temp = cards.get(r);
+	    cards.set(r, cards.get(k));
+	    cards.set(k, temp);
+	  }
+	  this.size = cards.size();
+ 	}
+	
 	/**
 	 * Deals a card from this deck.
 	 * @return the card just dealt, or null if all the cards have been

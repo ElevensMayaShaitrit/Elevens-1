@@ -1,3 +1,6 @@
+package Activity05.Buggy1;
+//DeckTester.testEmpty
+//isEmpty is not being set to false for an empty deck, maybe the condition is wrong
 /**
  * Card.java
  *
